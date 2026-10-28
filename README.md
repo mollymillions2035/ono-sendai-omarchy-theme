@@ -63,7 +63,7 @@ install -Dm 755 sddm/login-theme ~/.local/bin/login-theme   # once
 login-theme ono-sendai
 ```
 
-## Screensaver
+## Screensaver and About
 
 `screensaver.txt` is the wordmark in half-block characters, 86x5 and
 letterspaced so no letters merge, for Omarchy's ttfx screensaver. It's sized for a 1920x1080 laptop panel at
@@ -71,11 +71,16 @@ letterspaced so no letters merge, for Omarchy's ttfx screensaver. It's sized for
 columns by 24 rows. Regenerate with `python3 wallpaper.py screensaver`; the
 limit is `SS_COLS`/`SS_ROWS` in the script.
 
+`about.txt` is the logo beside the About (fastfetch) box, which allows 54x26
+cells. The wordmark on one line would be two rows tall there, so it's stacked,
+ONO over SENDAI, 54x13. Regenerate with `python3 wallpaper.py about`. About
+draws it in the terminal's green; Omarchy has no setting for that.
+
 Omarchy keeps the screensaver and About art global
 (`~/.config/omarchy/branding/`) and never reads it from a theme, so
 `theme-branding` is a theme-set hook that copies the current theme's
-`screensaver.txt` (and `about.txt`, if a theme ships one) into place and
-restores the previous art when you switch to a theme without it. It's the same
+`screensaver.txt` and `about.txt` into place and
+restores the previous art when you switch to a theme without them. It's the same
 hook as in the hosaka theme; install it once:
 
 ```

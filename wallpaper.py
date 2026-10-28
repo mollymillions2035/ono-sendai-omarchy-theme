@@ -6,9 +6,9 @@
 # No HUDs, buttons, lights or photos.
 #   1-ono-sendai      ONO-SENDAI alone, the size of the boot and login logo.
 #   2-ono-sendai-red  the same, reversed: black on Ono-Sendai red.
-# Also writes unlock.png (Plymouth logo), preview-unlock.png, sddm/logo.png and
-# screensaver.txt. Needs numpy, Pillow, rsvg-convert, ImageMagick and (for
-# screensaver.txt) omarchy-transcode-ascii. Usage: python3 wallpaper.py [name ...]
+# Also writes unlock.png (Plymouth logo), preview-unlock.png, sddm/logo.png,
+# screensaver.txt and about.txt. Needs numpy, Pillow, rsvg-convert, ImageMagick
+# and (for the .txt art) omarchy-transcode-ascii. Usage: python3 wallpaper.py [name ...]
 import os, subprocess, sys, tempfile
 import numpy as np
 from PIL import Image
@@ -161,12 +161,8 @@ def preview_unlock(logo, out, bg=BLACK, fg=FG):
 SS_COLS, SS_ROWS = 86, 22
 
 
-def screensaver():
-    """screensaver.txt: the wordmark in half-block characters, across the full
-    width and about six rows tall, letterspaced so no two letters merge."""
-    body, w = wordmark_units(gap=24)
-    svg = f'<g fill="#fff" color="#fff">{body}</g>'
-    size = (int(w) + 2, 102)
+def block_art(svg, size, out, cols, rows, threshold=45):
+    """White SVG art as half-block characters, at most cols x rows."""
     a = render_svg(svg, size)[..., 3]
     with tempfile.TemporaryDirectory() as t:
         png = os.path.join(t, 'mark.png')
@@ -174,14 +170,44 @@ def screensaver():
         rgba[..., :3] = 255
         rgba[..., 3] = (a * 255 + 0.5).astype(np.uint8)
         Image.fromarray(rgba, 'RGBA').save(png)
-        out = os.path.join(HERE, 'screensaver.txt')
-        subprocess.run(['omarchy-transcode-ascii', png, out, '--mode', 'block',
-                        '--width', str(SS_COLS), '--height', str(SS_ROWS), '--threshold', '45'],
+        path = os.path.join(HERE, out)
+        subprocess.run(['omarchy-transcode-ascii', png, path, '--mode', 'block',
+                        '--width', str(cols), '--height', str(rows), '--threshold', str(threshold)],
                        check=True, stdout=subprocess.DEVNULL)
-    lines = open(out).read().rstrip('\n').split('\n')
-    cols = max(len(l) for l in lines)
-    assert cols <= SS_COLS and len(lines) <= SS_ROWS, (cols, len(lines))
-    print(f'screensaver.txt ({cols}x{len(lines)})')
+    lines = open(path).read().rstrip('\n').split('\n')
+    w = max(len(l) for l in lines)
+    assert w <= cols and len(lines) <= rows, (w, len(lines))
+    print(f'{out} ({w}x{len(lines)})')
+
+
+def screensaver():
+    """screensaver.txt: the wordmark in half-block characters, across the full
+    width and about six rows tall, letterspaced so no two letters merge."""
+    body, w = wordmark_units(gap=24)
+    block_art(f'<g fill="#fff" color="#fff">{body}</g>', (int(w) + 2, 102), 'screensaver.txt', SS_COLS, SS_ROWS)
+
+
+def letters(text, gap):
+    """A run of GLYPHS at 100-unit cap height: (svg body, width)."""
+    x, parts = 0, []
+    for ch in text:
+        adv, body = GLYPHS[ch]
+        parts.append(f'<g transform="translate({x},0)">{body}</g>')
+        x += adv + gap
+    return ''.join(parts), x - gap
+
+
+def about():
+    """about.txt: the About (fastfetch) logo, at most 54x26 cells. The wordmark on
+    one line would be two rows tall there, so it is stacked, ONO over SENDAI
+    (the hyphen is only a line break), letterspaced like the screensaver."""
+    gap, lead = 24, 40
+    ono, ow = letters('ONO', gap)
+    sendai, sw = letters('SENDAI', gap)
+    w, h = int(max(ow, sw)) + 4, 204 + lead
+    block_art(f'<g fill="#fff" color="#fff"><g transform="translate({(w - ow) / 2},2)">{ono}</g>'
+              f'<g transform="translate({(w - sw) / 2},{102 + lead})">{sendai}</g></g>',
+              (w, h), 'about.txt', 54, 26)
 
 
 JOBS = {
@@ -190,7 +216,7 @@ JOBS = {
 }
 
 if __name__ == '__main__':
-    want = sys.argv[1:] or list(JOBS) + ['unlock', 'screensaver']
+    want = sys.argv[1:] or list(JOBS) + ['unlock', 'screensaver', 'about']
     os.makedirs(os.path.join(HERE, 'backgrounds'), exist_ok=True)
     os.makedirs(os.path.join(HERE, 'sddm'), exist_ok=True)
     for name in want:
@@ -198,5 +224,7 @@ if __name__ == '__main__':
             unlock()
         elif name == 'screensaver':
             screensaver()
+        elif name == 'about':
+            about()
         else:
             save(JOBS[name](), os.path.join(HERE, 'backgrounds', f'{name}.png'))
