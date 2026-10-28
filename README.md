@@ -65,16 +65,22 @@ login-theme ono-sendai
 
 ## Screensaver and About
 
-`screensaver.txt` is the wordmark in half-block characters, 86x5 and
-letterspaced so no letters merge, for Omarchy's ttfx screensaver. It's sized for a 1920x1080 laptop panel at
-1.25 scale, where the screensaver's fullscreen terminal (18 pt) is only 90
-columns by 24 rows. Regenerate with `python3 wallpaper.py screensaver`; the
+The terminal art is set in BigBlueTermPlus (the IBM PC's terminal lettering,
+`BigBlueTermPlus Nerd Font Mono`), the deck's own text mode, rather than the
+vector wordmark. The font is a bitmap on a 12-pixel grid, so each font pixel
+becomes one square half-block cell: nothing traced or scaled.
+
+`screensaver.txt` is ONO-SENDAI on one line, 78x5, for Omarchy's ttfx
+screensaver. It's sized for a 1920x1080 laptop panel at 1.25 scale, where the
+screensaver's fullscreen terminal (18 pt) is only 90 columns by 24 rows; the
 limit is `SS_COLS`/`SS_ROWS` in the script.
 
 `about.txt` is the logo beside the About (fastfetch) box, which allows 54x26
-cells. The wordmark on one line would be two rows tall there, so it's stacked,
-ONO over SENDAI, 54x13. Regenerate with `python3 wallpaper.py about`. About
-draws it in the terminal's green; Omarchy has no setting for that.
+cells, so it's stacked, ONO over SENDAI, 46x11. About draws it in the
+terminal's green; Omarchy has no setting for that.
+
+Regenerate either with `python3 wallpaper.py screensaver` or
+`python3 wallpaper.py about` (needs the font installed).
 
 Omarchy keeps the screensaver and About art global
 (`~/.config/omarchy/branding/`) and never reads it from a theme, so

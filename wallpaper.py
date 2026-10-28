@@ -8,10 +8,10 @@
 #   2-ono-sendai-red  the same, reversed: black on Ono-Sendai red.
 # Also writes unlock.png (Plymouth logo), preview-unlock.png, sddm/logo.png,
 # screensaver.txt and about.txt. Needs numpy, Pillow, rsvg-convert, ImageMagick
-# and (for the .txt art) omarchy-transcode-ascii. Usage: python3 wallpaper.py [name ...]
+# and (for the .txt art) BigBlueTermPlus Nerd Font Mono. Usage: python3 wallpaper.py [name ...]
 import os, subprocess, sys, tempfile
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageDraw, ImageFont
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 W, H = 3840, 2160
@@ -161,53 +161,59 @@ def preview_unlock(logo, out, bg=BLACK, fg=FG):
 SS_COLS, SS_ROWS = 86, 22
 
 
-def block_art(svg, size, out, cols, rows, threshold=45):
-    """White SVG art as half-block characters, at most cols x rows."""
-    a = render_svg(svg, size)[..., 3]
-    with tempfile.TemporaryDirectory() as t:
-        png = os.path.join(t, 'mark.png')
-        rgba = np.zeros((*a.shape, 4), np.uint8)
-        rgba[..., :3] = 255
-        rgba[..., 3] = (a * 255 + 0.5).astype(np.uint8)
-        Image.fromarray(rgba, 'RGBA').save(png)
-        path = os.path.join(HERE, out)
-        subprocess.run(['omarchy-transcode-ascii', png, path, '--mode', 'block',
-                        '--width', str(cols), '--height', str(rows), '--threshold', str(threshold)],
-                       check=True, stdout=subprocess.DEVNULL)
-    lines = open(path).read().rstrip('\n').split('\n')
+# The terminal art is set in BigBlueTermPlus (the IBM PC's terminal lettering),
+# not the vector wordmark: it is the deck's own text mode. The font is a bitmap
+# on a 12-pixel grid, so at 12 px every font pixel lands on one screen pixel, and
+# each becomes one half-block cell, which is square. Nothing is traced or scaled.
+TERM_FONT = 'BigBlueTermPlus Nerd Font Mono'
+
+
+def term_bitmap(text):
+    """`text` in TERM_FONT at its native size, as a boolean pixel array cropped to the ink."""
+    path = subprocess.run(['fc-match', '-f', '%{file}', TERM_FONT], capture_output=True, text=True, check=True).stdout
+    assert 'BigBlueTermPlus' in path, f'{TERM_FONT} is not installed (fc-match gave {path})'
+    font = ImageFont.truetype(path, 12)
+    img = Image.new('1', (len(text) * 8 + 8, 24), 0)
+    draw = ImageDraw.Draw(img)
+    draw.fontmode = '1'
+    draw.text((4, 4), text, font=font, fill=1)
+    a = np.array(img)
+    ys, xs = np.nonzero(a)
+    return a[ys.min():ys.max() + 1, xs.min():xs.max() + 1]
+
+
+def half_blocks(a):
+    """Two pixel rows per text row: top, bottom, both or neither."""
+    if len(a) % 2:
+        a = np.vstack([a, np.zeros((1, a.shape[1]), bool)])
+    cell = {(0, 0): ' ', (1, 0): '▀', (0, 1): '▄', (1, 1): '█'}
+    return [''.join(cell[int(t), int(b)] for t, b in zip(a[i], a[i + 1])).rstrip() for i in range(0, len(a), 2)]
+
+
+def write_art(lines, out, cols, rows):
     w = max(len(l) for l in lines)
     assert w <= cols and len(lines) <= rows, (w, len(lines))
+    with open(os.path.join(HERE, out), 'w') as f:
+        f.write('\n'.join(lines) + '\n')
     print(f'{out} ({w}x{len(lines)})')
 
 
 def screensaver():
-    """screensaver.txt: the wordmark in half-block characters, across the full
-    width and about six rows tall, letterspaced so no two letters merge."""
-    body, w = wordmark_units(gap=24)
-    block_art(f'<g fill="#fff" color="#fff">{body}</g>', (int(w) + 2, 102), 'screensaver.txt', SS_COLS, SS_ROWS)
-
-
-def letters(text, gap):
-    """A run of GLYPHS at 100-unit cap height: (svg body, width)."""
-    x, parts = 0, []
-    for ch in text:
-        adv, body = GLYPHS[ch]
-        parts.append(f'<g transform="translate({x},0)">{body}</g>')
-        x += adv + gap
-    return ''.join(parts), x - gap
+    """screensaver.txt: ONO-SENDAI on one line in the terminal font, 78x5."""
+    write_art(half_blocks(term_bitmap('ONO-SENDAI')), 'screensaver.txt', SS_COLS, SS_ROWS)
 
 
 def about():
-    """about.txt: the About (fastfetch) logo, at most 54x26 cells. The wordmark on
-    one line would be two rows tall there, so it is stacked, ONO over SENDAI
-    (the hyphen is only a line break), letterspaced like the screensaver."""
-    gap, lead = 24, 40
-    ono, ow = letters('ONO', gap)
-    sendai, sw = letters('SENDAI', gap)
-    w, h = int(max(ow, sw)) + 4, 204 + lead
-    block_art(f'<g fill="#fff" color="#fff"><g transform="translate({(w - ow) / 2},2)">{ono}</g>'
-              f'<g transform="translate({(w - sw) / 2},{102 + lead})">{sendai}</g></g>',
-              (w, h), 'about.txt', 54, 26)
+    """about.txt: the About (fastfetch) logo, at most 54x26 cells. One line would
+    not fit, so it is stacked, ONO centred over SENDAI (the hyphen is only a
+    line break), with a 3-pixel lead that keeps SENDAI on an even pixel row."""
+    ono, sendai = term_bitmap('ONO'), term_bitmap('SENDAI')
+    w = sendai.shape[1]
+    a = np.zeros((ono.shape[0] + 3 + sendai.shape[0], w), bool)
+    x = (w - ono.shape[1]) // 2
+    a[:ono.shape[0], x:x + ono.shape[1]] = ono
+    a[ono.shape[0] + 3:] = sendai
+    write_art(half_blocks(a), 'about.txt', 54, 26)
 
 
 JOBS = {
