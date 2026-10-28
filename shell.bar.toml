@@ -1,0 +1,9 @@
+[bar]
+# Deck-black bar with warm off-white type; attention modules light up Ono-Sendai red.
+background       = "#0a0707"
+background-alpha = 0.85
+text             = "#e6d9d4"
+active           = "#e8261b"
+scale-with-font  = true
+size-horizontal  = 26
+size-vertical    = 28

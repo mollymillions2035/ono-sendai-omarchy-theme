@@ -1,0 +1,82 @@
+#!/bin/bash
+# Pick which custom SDDM login screen is active. Each Omarchy theme can ship
+# one in ~/.config/omarchy/themes/<name>/sddm/ (Main.qml + assets).
+#
+#   login-theme               show the active login screen and the ones available
+#   login-theme <name>        install/refresh <name>'s login screen and make it active
+#   login-theme --default     back to Omarchy's own login screen
+#   login-theme --remove <n>  delete an installed custom login screen
+#
+# Only ever writes:
+#   /usr/share/sddm/themes/<name>/          (folders it created, marked .login-theme)
+#   /etc/sddm.conf.d/99-z-login-theme.conf  ([Theme] Current=<name>; sorts after
+#                                            Omarchy's 99-omarchy-login.conf)
+# Never touches Omarchy's "omarchy" SDDM theme or its config files.
+
+# The same file ships in every theme that has a login screen (sddm/login-theme)
+# and is installed as ~/.local/bin/login-theme. Change one, copy it to all.
+set -euo pipefail
+
+themes=${XDG_CONFIG_HOME:-$HOME/.config}/omarchy/themes
+sddm_themes=/usr/share/sddm/themes
+selector=/etc/sddm.conf.d/99-z-login-theme.conf
+marker=.login-theme
+
+active() {
+  [[ -f $selector ]] && sed -n 's/^Current=//p' "$selector"
+}
+
+# A target folder is ours if it doesn't exist yet or carries our marker.
+ours() {
+  local dir=$sddm_themes/$1
+  [[ ! -e $dir || -f $dir/$marker ]]
+}
+
+valid_name() {
+  [[ $1 =~ ^[a-z0-9][a-z0-9-]*$ && $1 != omarchy ]] || { echo "Invalid theme name: $1" >&2; exit 1; }
+}
+
+case ${1:-} in
+  "")
+    echo "Active login screen: $(active || true)"
+    [[ -n $(active || true) ]] || echo "  (none set here: Omarchy's default)"
+    echo "Available:"
+    for d in "$themes"/*/sddm/Main.qml; do
+      [[ -f $d ]] && basename "$(dirname "$(dirname "$d")")" | sed 's/^/  /'
+    done
+    ;;
+
+  --default)
+    sudo rm -f -- "$selector"
+    echo "Login screen back to Omarchy's default. Takes effect at the next login."
+    ;;
+
+  --remove)
+    name=${2:?usage: login-theme --remove <name>}
+    valid_name "$name"
+    ours "$name" || { echo "Refusing: $sddm_themes/$name wasn't installed by login-theme." >&2; exit 1; }
+    [[ $(active || true) == "$name" ]] && sudo rm -f -- "$selector"
+    sudo rm -rf -- "${sddm_themes:?}/$name"
+    echo "Removed $sddm_themes/$name."
+    ;;
+
+  -*)
+    sed -n '2,14p' "$0" | sed 's/^# \{0,1\}//'
+    exit 1
+    ;;
+
+  *)
+    name=$1
+    valid_name "$name"
+    src=$themes/$name/sddm
+    [[ -f $src/Main.qml && -f $src/metadata.desktop ]] || { echo "No login screen in $src" >&2; exit 1; }
+    ours "$name" || { echo "Refusing: $sddm_themes/$name exists and wasn't installed by login-theme." >&2; exit 1; }
+
+    mapfile -t files < <(cd "$src" && ls Main.qml metadata.desktop theme.conf *.png 2>/dev/null | grep -v '^preview\.png$')
+    sudo install -d -m 755 "$sddm_themes/$name"
+    (cd "$src" && sudo install -m 644 "${files[@]}" "$sddm_themes/$name"/)
+    sudo touch "$sddm_themes/$name/$marker"
+    printf '[Theme]\nCurrent=%s\n' "$name" | sudo install -m 644 /dev/stdin "$selector"
+    echo "Login screen set to $name. Takes effect at the next login."
+    ;;
+esac

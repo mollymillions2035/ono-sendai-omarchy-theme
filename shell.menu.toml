@@ -1,0 +1,16 @@
+[menu]
+# Black card, translucent over the blurred wallpaper, red gradient border;
+# the selected row is a red trace down its left edge.
+background                = "#160e0d"
+background-alpha          = 0.66
+text                      = "#e6d9d4"
+border                    = "hyprland.active-border"
+border-alpha              = 0.85
+scrim                     = "#040303"
+scrim-alpha               = 0.35
+selected-background       = "#e8261b"
+selected-background-alpha = 0.16
+selected-text             = "#ff5a4c"
+selected-border           = "#e8261b"
+selected-border-alpha     = 0.85
+selected-border-width     = "0 0 0 2"

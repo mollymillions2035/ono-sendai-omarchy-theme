@@ -1,0 +1,14 @@
+[lock]
+# Password card: black, red gradient at rest, solid red while typing,
+# brighter red on a wrong password.
+background       = "#0a0707"
+background-alpha = 0.78
+text             = "#e6d9d4"
+placeholder      = "#6e5f5b"
+text-error       = "#ff5a4c"
+border           = "hyprland.active-border"
+border-active    = "#e8261b"
+border-error     = "#ff5a4c"
+border-alpha     = 0.9
+selection        = "#e8261b"
+selection-alpha  = 0.4

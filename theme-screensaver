@@ -1,0 +1,22 @@
+#!/bin/bash
+# Omarchy theme-set hook: use the new theme's screensaver.txt, if it ships one, as
+# the screensaver art (~/.config/omarchy/branding/screensaver.txt, which Omarchy
+# itself keeps global). Switching to a theme without one puts back the art that was
+# there before, unless it was changed by hand (omarchy branding screensaver) since.
+# Install: omarchy hook install theme-set theme-screensaver
+
+art=~/.local/state/omarchy/current/theme/screensaver.txt
+dir=~/.config/omarchy/branding
+own=$dir/.screensaver.own.txt          # the art before any theme replaced it
+installed=$dir/.screensaver.theme.txt  # what this hook last put in place
+
+if [[ -f $art ]]; then
+  if [[ -f $dir/screensaver.txt ]] && { [[ ! -f $own ]] || ! cmp -s "$dir/screensaver.txt" "$installed"; }; then
+    cp "$dir/screensaver.txt" "$own"
+  fi
+  cp "$art" "$dir/screensaver.txt"
+  cp "$art" "$installed"
+elif [[ -f $own ]]; then
+  cmp -s "$dir/screensaver.txt" "$installed" && cp "$own" "$dir/screensaver.txt"
+  rm -f "$own" "$installed"
+fi

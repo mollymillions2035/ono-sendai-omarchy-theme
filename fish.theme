@@ -1,0 +1,75 @@
+# name: 'Ono-Sendai'
+# Fish syntax colours in the Ono-Sendai palette: commands in Ono-Sendai red,
+# strings and separators in warm orange, comments and suggestions in muted ink.
+# A command that doesn't exist is bright red and underlined.
+# [unknown] is for terminals that don't report their background; it is
+# the same as [dark], since Ono-Sendai is a dark theme.
+
+[dark]
+# preferred_background: 0a0707
+fish_color_normal --reset
+fish_color_command e8261b
+fish_color_keyword ff5a4c
+fish_color_param e6d9d4
+fish_color_option b8a8a3
+fish_color_quote f6925e
+fish_color_redirection e3b24f
+fish_color_operator e3b24f
+fish_color_end ee6a2c
+fish_color_escape 5fb0aa
+fish_color_error ff5a4c --bold --underline
+fish_color_comment 6e5f5b --italics
+fish_color_autosuggestion 6e5f5b
+fish_color_valid_path --underline
+fish_color_selection --background=3b1411 --bold
+fish_color_search_match --background=3b1411 --bold
+fish_color_history_current --bold
+fish_color_cancel --reverse
+fish_color_cwd e8261b
+fish_color_cwd_root ff5a4c --bold
+fish_color_user e6d9d4
+fish_color_host b8a8a3
+fish_color_host_remote e3b24f
+fish_color_status ff5a4c
+fish_pager_color_prefix e8261b --bold --underline
+fish_pager_color_completion e6d9d4
+fish_pager_color_description 9a8b86
+fish_pager_color_progress 0a0707 --background=e8261b --bold
+fish_pager_color_selected_background --background=3b1411
+fish_pager_color_selected_prefix ff5a4c --bold --underline
+fish_pager_color_selected_completion f7eeea
+fish_pager_color_selected_description b8a8a3
+
+[unknown]
+fish_color_normal --reset
+fish_color_command e8261b
+fish_color_keyword ff5a4c
+fish_color_param e6d9d4
+fish_color_option b8a8a3
+fish_color_quote f6925e
+fish_color_redirection e3b24f
+fish_color_operator e3b24f
+fish_color_end ee6a2c
+fish_color_escape 5fb0aa
+fish_color_error ff5a4c --bold --underline
+fish_color_comment 6e5f5b --italics
+fish_color_autosuggestion 6e5f5b
+fish_color_valid_path --underline
+fish_color_selection --background=3b1411 --bold
+fish_color_search_match --background=3b1411 --bold
+fish_color_history_current --bold
+fish_color_cancel --reverse
+fish_color_cwd e8261b
+fish_color_cwd_root ff5a4c --bold
+fish_color_user e6d9d4
+fish_color_host b8a8a3
+fish_color_host_remote e3b24f
+fish_color_status ff5a4c
+fish_pager_color_prefix e8261b --bold --underline
+fish_pager_color_completion e6d9d4
+fish_pager_color_description 9a8b86
+fish_pager_color_progress 0a0707 --background=e8261b --bold
+fish_pager_color_selected_background --background=3b1411
+fish_pager_color_selected_prefix ff5a4c --bold --underline
+fish_pager_color_selected_completion f7eeea
+fish_pager_color_selected_description b8a8a3

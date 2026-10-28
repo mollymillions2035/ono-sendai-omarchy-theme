@@ -1,0 +1,12 @@
+[polkit]
+# Privilege prompts: red gradient at rest, brighter red on failure.
+background       = "#0a0707"
+background-alpha = 0.9
+text             = "#e6d9d4"
+text-error       = "#ff5a4c"
+border           = "hyprland.active-border"
+border-error     = "#ff5a4c"
+border-alpha     = 0.9
+scrim            = "#040303"
+scrim-alpha      = 0.5
+accent           = "#e8261b"

@@ -1,0 +1,41 @@
+# Ono-Sendai: the deck maker of the Sprawl, whose Cyberspace 7 Case jacks in
+# with (Neuromancer). The house style is the deck in the series: deck black
+# and the wordmark in Ono-Sendai red. Red is the accent everywhere; type is a
+# warm off-white so long reading isn't red-on-black.
+mode = "dark"
+
+accent = "#e8261b"
+selection = "#3b1411"
+muted = "#64504b"
+
+background = "#0a0707"
+dark_background = "#070505"
+darker_background = "#040303"
+lighter_background = "#160e0d"
+
+foreground = "#e6d9d4"
+dark_foreground = "#6e5f5b"
+light_foreground = "#b8a8a3"
+bright_foreground = "#f7eeea"
+
+hyprland_active_border = "rgba(e8261bee) rgba(4d0d09ee) 45deg"
+hyprland_inactive_border = "rgba(24161599)"
+
+# red: Ono-Sendai red. The rest are muted so nothing competes with it, warm
+# where they can be; blue and cyan stay cool enough to tell apart.
+red = "#e8261b"
+orange = "#ee6a2c"
+yellow = "#e3b24f"
+green = "#8ab36f"
+cyan = "#5fb0aa"
+blue = "#7489c4"
+magenta = "#cf5a86"
+brown = "#8c4632"
+
+bright_red = "#ff5a4c"
+bright_orange = "#f6925e"
+bright_yellow = "#f0cd82"
+bright_green = "#aed095"
+bright_cyan = "#8fd0ca"
+bright_blue = "#a2b2e0"
+bright_magenta = "#e68bab"
