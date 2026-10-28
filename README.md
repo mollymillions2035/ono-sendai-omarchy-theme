@@ -71,14 +71,15 @@ letterspaced so no letters merge, for Omarchy's ttfx screensaver. It's sized for
 columns by 24 rows. Regenerate with `python3 wallpaper.py screensaver`; the
 limit is `SS_COLS`/`SS_ROWS` in the script.
 
-Omarchy keeps the screensaver art global
-(`~/.config/omarchy/branding/screensaver.txt`) and never reads it from a theme,
-so `theme-screensaver` is a theme-set hook that copies the current theme's
-`screensaver.txt` into place and restores the previous art when you switch to a
-theme without one. It's the same hook as in the hosaka theme; install it once:
+Omarchy keeps the screensaver and About art global
+(`~/.config/omarchy/branding/`) and never reads it from a theme, so
+`theme-branding` is a theme-set hook that copies the current theme's
+`screensaver.txt` (and `about.txt`, if a theme ships one) into place and
+restores the previous art when you switch to a theme without it. It's the same
+hook as in the hosaka theme; install it once:
 
 ```
-omarchy hook install theme-set theme-screensaver
+omarchy hook install theme-set theme-branding
 omarchy theme set ono-sendai
 ```
 
