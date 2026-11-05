@@ -34,18 +34,24 @@ hard edges, the way the company's own artwork would be. The glow in the footage
 is the camera's, so it isn't reproduced. The red traces and bars around the
 wordmark in the footage are the deck's exterior art, so they stay on the deck.
 
+The neon wallpapers are the exception, on purpose: lit signs, with the wordmark's
+lettering as an outline. The OS emblem (a wireframe shell closing on a circuit
+board) and the full logo's tagline are redrawn as vectors too.
+
 ## Backgrounds
 
-Two 3840x2160 wallpapers, the wordmark alone at the same size as on the boot and
-login screens:
+Four 3840x2160 wallpapers on deck black. The first two are the wordmark alone, at
+the same size as on the boot and login screens:
 
-1. `1-ono-sendai.png` (the default): Ono-Sendai red on deck black.
-2. `2-ono-sendai-red.png`: the same mark reversed, deck black on a field of
-   Ono-Sendai red.
+1. `1-ono-sendai.png` (the default): flat Ono-Sendai red.
+2. `2-ono-sendai-neon.png`: the same mark as a lit neon outline.
+3. `3-ono-sendai-logo.png`: the full logo in neon, with the red light spilling out
+   and fading to the plain ground before the screen's edges.
+4. `4-ono-sendai-os.png`: the OS emblem alone and large, in neon.
 
 Rendered by `wallpaper.py` (numpy, Pillow, rsvg-convert, ImageMagick);
 regenerate with `python3 wallpaper.py` (or one: `python3 wallpaper.py
-2-ono-sendai-red`), then `omarchy theme refresh`. A wallpaper already on screen
+2-ono-sendai-neon`), then `omarchy theme refresh`. A wallpaper already on screen
 updates the next time it loads. Switch between them with `omarchy theme bg next`.
 
 ## Boot splash and login (Plymouth + SDDM)
