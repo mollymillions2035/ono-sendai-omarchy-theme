@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Ono-Sendai wallpaper, 3840x2160: the deck maker's wordmark, redrawn as
-# vectors from preview footage of the Neuromancer series; nothing is cut from the
-# footage. The traces and bars around it in the footage are the deck's exterior
+# vectors from preview footage of the Neuromancer TV adaptation; nothing is cut
+# from the footage. The traces and bars around it in the footage are the deck's exterior
 # art, so they stay on the deck; the camera's glow stays in the footage too.
 # No HUDs, buttons, lights or photos.
 #   1-ono-sendai      ONO-SENDAI alone, the size of the boot and login logo.

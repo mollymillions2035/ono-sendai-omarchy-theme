@@ -2,8 +2,8 @@
 
 An Omarchy theme for Ono-Sendai, the deck maker of William Gibson's Sprawl:
 Case's Ono-Sendai Cyberspace 7 in *Neuromancer*. The ONO-SENDAI wordmark is the
-one on the deck in preview footage of the Neuromancer series, redrawn here as
-vectors. Nothing is cut or traced from the footage.
+one on the deck in preview footage of the *Neuromancer* TV adaptation, redrawn
+here as vectors. Nothing is cut or traced from the footage.
 
 It's an Ono-Sendai desktop, not a desktop decorated to look like Ono-Sendai.
 Everything on it is something the deck would really show: no HUDs, no drawn
@@ -156,3 +156,10 @@ omarchy theme set ono-sendai
 
 The login screen uses JetBrainsMono Nerd Font, which Omarchy ships. The
 wallpapers need no fonts.
+
+## License
+
+Original work is [CC0 1.0](LICENSE). Anything owned by others stays under its
+owners' terms, including the Ono-Sendai name and wordmark, the art rendered from
+BigBlueTerm (CC BY-SA 4.0) and the parts adapted from Omarchy (MIT). See
+[NOTICE.md](NOTICE.md).
