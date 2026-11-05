@@ -5,7 +5,9 @@
 # art, so they stay on the deck; the camera's glow stays in the footage too.
 # No HUDs, buttons, lights or photos.
 #   1-ono-sendai      ONO-SENDAI alone, the size of the boot and login logo.
-#   2-ono-sendai-red  the same, reversed: black on Ono-Sendai red.
+#   2-ono-sendai-neon the same, as a lit neon outline.
+#   3-ono-sendai-logo the full logo (OS emblem, wordmark, tagline) as a neon sign.
+#   4-ono-sendai-os   the OS emblem alone, large, as a neon sign.
 # Also writes unlock.png (Plymouth logo), preview-unlock.png, sddm/logo.png,
 # screensaver.txt and about.txt. Needs numpy, Pillow, rsvg-convert, ImageMagick
 # and (for the .txt art) BigBlueTermPlus Nerd Font Mono. Usage: python3 wallpaper.py [name ...]
@@ -89,6 +91,95 @@ def wordmark(x, y, cap, fill=RED, anchor='middle'):
     return f'<g transform="translate({x0:.2f},{y:.2f}) scale({s:.5f})" fill="{fill}" color="{fill}">{body}</g>'
 
 
+# ---------------------------------------------------------------- the emblem
+#
+# The OS emblem: a wireframe shell closing on a circuit board, around a heavy
+# chamfered OS. Redrawn as clean vectors in an 800-unit box, so it stays sharp at
+# 4K, with the mesh's edges meeting at real vertices.
+
+_V = dict(
+    A=(412, 42), B=(238, 120), C=(92, 258), D=(92, 540), E=(195, 645), F=(415, 780),
+    G=(585, 115), H=(345, 138), I=(265, 195), J=(415, 232), K=(190, 252), M=(325, 244),
+    P=(552, 150), Q=(495, 218), a=(132, 345), b=(92, 405), c=(132, 470),
+    S=(150, 532), T=(258, 578), U=(412, 572), V=(290, 650), X=(412, 660), Y=(340, 576),
+    Z=(335, 731),
+)
+_SHELL = 'AB BC CD DE EF AG'
+_FACETS = ('AH AJ AP BH HP HI HJ BI IK BK CK CI KM IM MJ HM JQ '
+           'Ca ab bc cD ac DS SE ST ET TY YU TV EV VX VZ XZ YV YX UF')
+_BOARD = ['M412,312 L640,52 H740 V262 L695,298',
+          'M679,106 L600,185 H523', 'M679,169 L590,258 H459', 'M657,243 L615,285',
+          'M545,222 H500',
+          'M458,552 L412,598', 'M500,552 L440,612 V682', 'M552,552 L488,616 V653',
+          'M735,426 V520 L680,575 H565 L530,610 V672 L422,780', 'M585,620 H655']
+_RINGS = [(690, 95, 15), (690, 158, 15), (668, 232, 15), (440, 697, 15), (488, 668, 15), (735, 408, 18)]
+_OS = ('M205,295 H345 L395,345 V495 L345,545 H205 L155,495 V345 Z '
+       'M222,345 H328 L345,362 V478 L328,495 H222 L205,478 V362 Z',
+       'M695,298 L640,348 H495 L482,361 V382 L495,395 H640 L685,440 V500 L640,545 H410 L458,497 '
+       'H625 L638,484 V456 L625,443 H480 L435,398 V345 L482,298 Z')
+EMBLEM_BOX = (92, 42, 753, 780)
+
+
+def emblem(x, y, h):
+    """Emblem layers with its height h, top edge at y, centred on x: (line art, solid OS)."""
+    x0, y0, x1, y1 = EMBLEM_BOX
+    s = h / (y1 - y0)
+    t = f'transform="translate({x - s * (x0 + x1) / 2:.2f},{y - s * y0:.2f}) scale({s:.5f})"'
+    edge = lambda names: ''.join(f'M{_V[n[0]][0]},{_V[n[0]][1]} L{_V[n[1]][0]},{_V[n[1]][1]} ' for n in names.split())
+    paint = 'fill="none" stroke="#fff" stroke-linejoin="round" stroke-linecap="round"'
+    lines = (f'<g {t} {paint}>'
+             f'<path d="{edge(_SHELL)}" stroke-width="5.5"/>'
+             f'<path d="{edge(_FACETS)}" stroke-width="3"/>'
+             f'<path d="{" ".join(_BOARD)}" stroke-width="5.5"/>'
+             + ''.join(f'<circle cx="{a}" cy="{b}" r="{r}" stroke-width="5.5"/>' for a, b, r in _RINGS)
+             + f'<path d="{" ".join(_OS)}" fill-rule="evenodd" stroke-width="6"/></g>')
+    solid = f'<g {t} fill="#fff"><path fill-rule="evenodd" d="{_OS[0]}"/><path d="{_OS[1]}"/></g>'
+    return lines, solid
+
+
+# The line under the wordmark, lettered to match the OS: one stroke on a 100-unit
+# cap height, chamfered corners. Each letter is (width, path).
+LETTERS = {
+    'A': (70, 'M0,100 V14 L14,0 H56 L70,14 V100 M0,60 H70'),
+    'B': (70, 'M0,0 H56 L70,14 V36 L58,48 L70,60 V86 L56,100 H0 Z M0,48 H58'),
+    'C': (70, 'M70,0 H14 L0,14 V86 L14,100 H70'),
+    'E': (64, 'M64,0 H0 V100 H64 M0,50 H54'),
+    'H': (70, 'M0,0 V100 M70,0 V100 M0,50 H70'),
+    'I': (0, 'M0,0 V100'),
+    'K': (66, 'M0,0 V100 M66,0 L16,50 H0 M16,50 L66,100'),
+    'M': (84, 'M0,100 V0 L42,58 L84,0 V100'),
+    'O': (72, 'M14,0 H58 L72,14 V86 L58,100 H14 L0,86 V14 Z'),
+    'P': (70, 'M0,100 V0 H56 L70,14 V44 L56,58 H0'),
+    'R': (70, 'M0,100 V0 H56 L70,14 V44 L56,58 H0 M42,58 L70,100'),
+    'S': (70, 'M70,0 H14 L0,14 V36 L14,50 H56 L70,64 V86 L56,100 H0'),
+    'T': (70, 'M0,0 H70 M35,0 V100'),
+    'Y': (70, 'M0,0 L35,50 L70,0 M35,50 V100'),
+}
+
+
+def lettering(text, x, y, cap, weight=15, track=34):
+    """`text` on one line, centred on x, top edge at y. '.' is a centred dot, ' ' a space."""
+    sw, x1, parts = weight, 0, []
+    dot = sw * 2
+    for ch in text:
+        if ch == ' ':
+            x1 += 40
+        elif ch == '.':
+            parts.append(f'<rect x="{x1:.1f}" y="{50 - dot / 2:.1f}" width="{dot:.1f}" height="{dot:.1f}" fill="#fff" stroke="none" transform="rotate(45 {x1 + dot / 2:.1f} 50)"/>')
+            x1 += dot + track
+        else:
+            w, d = LETTERS[ch]
+            parts.append(f'<path transform="translate({x1:.1f},0)" d="{d}"/>')
+            x1 += w + sw + track
+    width = x1 - track - sw
+    s = cap / (100 + sw)
+    cid = 'c' + text.replace(' ', '').replace('.', '')
+    # Square caps keep every stem level with the bars; the clip trims diagonals to the same band.
+    return (f'<clipPath id="{cid}"><rect x="{-sw}" y="{-sw / 2}" width="{width + 2 * sw}" height="{100 + sw}"/></clipPath>'
+            f'<g transform="translate({x - s * width / 2:.2f},{y + s * sw / 2:.2f}) scale({s:.5f})" clip-path="url(#{cid})" '
+            f'fill="none" stroke="#fff" stroke-width="{sw}" stroke-linejoin="miter" stroke-miterlimit="8" stroke-linecap="square">{"".join(parts)}</g>')
+
+
 # ---------------------------------------------------------------- wallpapers
 
 # The boot splash draws unlock.png at its own size on a 1920x1080 panel, so on the
@@ -96,15 +187,87 @@ def wordmark(x, y, cap, fill=RED, anchor='middle'):
 UNLOCK_CAP = 44
 
 
-def wordmark_only(ground=BLACK, ink=RED):
+def wordmark_only():
     # Flat and sharp, as the company's own artwork would be: no glow, no bloom.
-    word = render_svg(wordmark(W / 2, H / 2 - UNLOCK_CAP, UNLOCK_CAP * 2, ink))
-    return np.broadcast_to(rgb(ground), (H, W, 3)) * (1 - word[..., 3:4]) + word[..., :3]
+    word = render_svg(wordmark(W / 2, H / 2 - UNLOCK_CAP, UNLOCK_CAP * 2))
+    return np.broadcast_to(rgb(BLACK), (H, W, 3)) * (1 - word[..., 3:4]) + word[..., :3]
 
 
-def reversed_out():
-    # The same mark reversed: deck black on a field of Ono-Sendai red.
-    return wordmark_only(RED, BLACK)
+def blur(a, sigma):
+    """Gaussian blur of a 2-D float array: three box passes, on a shrunken copy when wide."""
+    f = max(1, int(sigma / 5))
+    h, w = a.shape
+    im = np.asarray(Image.fromarray(a, 'F').resize((w // f, h // f), Image.BOX)) if f > 1 else a
+    r = int(np.sqrt(4 * (sigma / f) ** 2 + 1)) // 2
+    for axis in (0, 1):
+        for _ in range(3):
+            c = np.cumsum(np.pad(im, [(r + 1, r) if i == axis else (0, 0) for i in (0, 1)], mode='edge'), axis=axis)
+            hi = c.take(range(2 * r + 1, c.shape[axis]), axis=axis)
+            lo = c.take(range(0, c.shape[axis] - 2 * r - 1), axis=axis)
+            im = (hi - lo) / (2 * r + 1)
+    return np.asarray(Image.fromarray(im.astype(np.float32), 'F').resize((w, h), Image.BICUBIC)) if f > 1 else im
+
+
+def tube_of(mark, softness):
+    """A neon tube along the contour of a filled mask, its corners rounded the way
+    bent glass would be. A wider softness makes a wider tube."""
+    return np.clip(1.25 - np.abs(blur(mark, softness) - 0.5) / 0.26, 0, 1)
+
+
+def light(tube, faces=None, solid=0, type_=0):
+    """Light a sign on deck black. Each tube gets a hot core, a saturated halo and a
+    wide spill of red. Emission goes through one curve, so weak light is pure
+    Ono-Sendai red and only the cores burn towards white. The ground is plain deck
+    black, with no texture to fight the windows on top. `faces` are hollow letters,
+    which block part of their tubes' light; `solid` glows flat, like the OS."""
+    source = tube + 0.45 * solid + 0.5 * type_
+    glow = (0.55 * blur(source, 4) + 0.30 * blur(source, 14) + 0.40 * blur(source, 45)
+            + 0.32 * blur(source, 150) + 0.30 * blur(source, 420))
+    if faces is not None:
+        glow = glow * (1 - 0.55 * faces)
+    emission = 2.4 * tube + 0.5 * solid + 0.62 * type_ + glow
+    # Hits the theme accent at emission 0.5, and a salmon white at a tube's core.
+    k = np.array([4.8, 0.324, 0.26], np.float32)
+    img = rgb(BLACK) + 1 - np.exp(-emission[..., None] * k)
+    # The spill is too faint and wide for 8 bits: dither it so it doesn't band. A
+    # small fixed tile of noise keeps the render repeatable and the PNG small.
+    tile = np.random.default_rng(7).random((64, 64), np.float32)
+    d = np.tile(tile, (H // 64 + 1, W // 64 + 1))[:H, :W, None]
+    return np.floor(np.clip(img, 0, 1) * 255 + d + 1e-3) / 255
+
+
+def neon_wordmark():
+    # The first wallpaper's wordmark, in the same size and place, as a lit outline.
+    mark = render_svg(wordmark(W / 2, H / 2 - UNLOCK_CAP, UNLOCK_CAP * 2, '#fff'))[..., 3]
+    return light(tube_of(mark, 2), mark)
+
+
+def neon_logo():
+    # The full lockup: emblem, wordmark and tagline.
+    emblem_h, cap = 640, 150
+    gap_emblem, gap_sub, gap_city = 92, 72, 40
+    sub, city = 40, 30
+    total = emblem_h + gap_emblem + cap + gap_sub + sub + gap_city + city
+    top = (H - total) / 2
+    lines, solid = emblem(W / 2, top, emblem_h)
+    y = top + emblem_h + gap_emblem
+
+    body, w = wordmark_units(gap=13)
+    s = cap / 100
+    mark = render_svg(f'<g transform="translate({W / 2 - w * s / 2:.2f},{y:.2f}) scale({s:.5f})" fill="#fff" color="#fff">{body}</g>')[..., 3]
+    y += cap + gap_sub
+
+    tube = np.maximum(render_svg(lines)[..., 3], tube_of(mark, 2.5))
+    type_ = render_svg(lettering('CYBERSPACE SYSTEMS', W / 2, y, sub, 15) +
+                       lettering('TOKYO . CHIBA . BAMA', W / 2, y + sub + gap_city, city, 11, 38))[..., 3]
+    return light(tube, mark, render_svg(solid)[..., 3], type_)
+
+
+def neon_emblem():
+    # The OS emblem alone and large, centred.
+    h = 1400
+    lines, solid = emblem(W / 2, (H - h) / 2, h)
+    return light(render_svg(lines)[..., 3], solid=render_svg(solid)[..., 3])
 
 
 # ---------------------------------------------------------------- Plymouth
@@ -218,7 +381,9 @@ def about():
 
 JOBS = {
     '1-ono-sendai': wordmark_only,
-    '2-ono-sendai-red': reversed_out,
+    '2-ono-sendai-neon': neon_wordmark,
+    '3-ono-sendai-logo': neon_logo,
+    '4-ono-sendai-os': neon_emblem,
 }
 
 if __name__ == '__main__':

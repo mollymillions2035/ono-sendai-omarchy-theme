@@ -17,6 +17,11 @@ subject to its owners' rights. CC0 grants nothing in it, and no trademark rights
 are granted. It appears in `backgrounds/`, `unlock.png`, `preview-unlock.png`,
 `sddm/logo.png` and `sddm/preview.png`, and is drawn by `wallpaper.py`.
 
+The OS emblem and tagline in `backgrounds/3-ono-sendai-logo.png` and
+`backgrounds/4-ono-sendai-os.png` are redrawn in
+`wallpaper.py` from a logo image supplied for this theme, which isn't included
+here. They are subject to the same limits.
+
 ## BigBlueTerm
 
 `screensaver.txt` and `about.txt` are rendered from BigBlueTermPlus Nerd Font and
