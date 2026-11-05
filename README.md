@@ -129,6 +129,31 @@ end
 New shells pick it up; open ones keep their colours until restarted. A theme
 without a `fish.theme` leaves fish on its defaults.
 
+## Atuin
+
+`atuin.toml` is Atuin's search interface in the same palette, with its command
+highlighting matching `fish.theme`: commands in Ono-Sendai red, strings in orange,
+operators in yellow, comments and help text in muted ink. Durations are green for
+a command that succeeded and bright red for one that failed. Atuin draws the
+selected row in its error colour whatever the result, so that's bright red too.
+
+Omarchy copies it to `~/.local/state/omarchy/current/theme/`, so Atuin can follow
+whichever Omarchy theme is current. Link it once and choose it in Atuin's config:
+
+```
+mkdir -p ~/.atuin/themes
+ln -s ~/.local/state/omarchy/current/theme/atuin.toml ~/.atuin/themes/omarchy.toml
+```
+
+```toml
+# ~/.atuin/config.toml, under its existing [theme] heading
+name = "omarchy"
+```
+
+Older installs keep both under `~/.config/atuin/` instead; `atuin doctor` warns if
+that file is being ignored. The next search picks it up. A theme without an `atuin.toml` leaves Atuin with no
+colours of its own.
+
 ## Claude Desktop
 
 `claude-desktop.jsonc` is the same palette for claude-desktop-extra: black

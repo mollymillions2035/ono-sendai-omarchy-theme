@@ -1,0 +1,22 @@
+# Atuin in the Ono-Sendai palette, matching fish.theme: commands in Ono-Sendai
+# red, strings in warm orange, operators in yellow, comments in muted ink. Base
+# is left to the terminal, which already has the theme's foreground.
+[theme]
+name = "omarchy"
+
+[colors]
+AlertInfo = "#8ab36f"
+AlertWarn = "#e3b24f"
+AlertError = "#ff5a4c"
+Annotation = "#6e5f5b"
+Guidance = "#b8a8a3"
+Important = "#f7eeea"
+Title = "#e8261b"
+Muted = "#6e5f5b"
+
+SyntaxCommand = "#e8261b"
+SyntaxFlag = "#b8a8a3"
+SyntaxString = "#f6925e"
+SyntaxVariable = "#5fb0aa"
+SyntaxOperator = "#e3b24f"
+SyntaxComment = "#6e5f5b"
