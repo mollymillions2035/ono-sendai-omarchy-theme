@@ -64,6 +64,14 @@ install -Dm 755 sddm/login-theme ~/.local/bin/login-theme   # once
 login-theme ono-sendai
 ```
 
+Omarchy updates can put the stock boot splash back. `plymouth-theme.hook` is a
+post-update hook that regenerates the splash from the current theme when that
+happens; install it once:
+
+```
+omarchy hook install post-update plymouth-theme.hook
+```
+
 ## Screensaver and About
 
 The terminal art is set in BigBlueTermPlus (the IBM PC's terminal lettering,

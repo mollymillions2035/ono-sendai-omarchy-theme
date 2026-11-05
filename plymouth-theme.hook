@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# omarchy-settings updates reinstall the stock Plymouth theme over the one
+# generated from the current theme's unlock.png; regenerate it when that happens.
+theme=$(cat ~/.local/state/omarchy/current/theme.name 2>/dev/null) || exit 0
+unlock=$(omarchy-theme-dir "$theme" 2>/dev/null)/unlock.png
+[[ -f $unlock ]] || exit 0
+cmp -s "$unlock" /usr/share/plymouth/themes/omarchy/logo.png && exit 0
+
+echo -e "\e[32m\nRestore $theme boot splash\e[0m"
+omarchy-plymouth-set-by-theme "$theme"
