@@ -13,8 +13,7 @@
 #                                            Omarchy's 99-omarchy-login.conf)
 # Never touches Omarchy's "omarchy" SDDM theme or its config files.
 
-# The same file ships in every theme that has a login screen (sddm/login-theme)
-# and is installed as ~/.local/bin/login-theme. Change one, copy it to all.
+# Installed as ~/.local/bin/login-theme.
 set -euo pipefail
 
 themes=${XDG_CONFIG_HOME:-$HOME/.config}/omarchy/themes

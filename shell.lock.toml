@@ -2,7 +2,7 @@
 # Password card: black, red gradient at rest, solid red while typing,
 # brighter red on a wrong password.
 background       = "#0a0707"
-background-alpha = 0.78
+background-alpha = 0.8
 text             = "#e6d9d4"
 placeholder      = "#6e5f5b"
 text-error       = "#ff5a4c"

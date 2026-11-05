@@ -20,10 +20,10 @@ device fronts, buttons or indicator lights, no out-of-universe logos.
 
 The other ANSI colours are muted so nothing competes with the red.
 
-Same structure as the arasaka, militech, netwatch, neuromancer and hosaka
-themes: `colors.toml`, `hyprland.lua` (red border fading into black, blur,
-translucency), `shell.*.toml` overrides (bar, launcher, menu, lock, polkit,
-notifications, popups, tooltip), `icons.theme` (Yaru-red-dark).
+The theme is `colors.toml`, `hyprland.lua` (red border fading into black),
+`shell.*.toml` overrides (bar, launcher, menu, lock, polkit, notifications,
+popups, tooltip), `icons.theme` (Yaru-red-dark). The theme sets no transparency
+of its own: use Omarchy's settings (Appearance > Windows > Window Opacity).
 
 ## The mark
 
@@ -73,7 +73,7 @@ becomes one square half-block cell: nothing traced or scaled.
 `screensaver.txt` is ONO-SENDAI on one line, 78x5, for Omarchy's ttfx
 screensaver. It's sized for a 1920x1080 laptop panel at 1.25 scale, where the
 screensaver's fullscreen terminal (18 pt) is only 90 columns by 24 rows; the
-limit is `SS_COLS`/`SS_ROWS` in the script.
+limit is the size of that terminal.
 
 `about.txt` is the logo beside the About (fastfetch) box, which allows 54x26
 cells, so it's stacked, ONO over SENDAI, 46x11. About draws it in the
@@ -86,8 +86,8 @@ Omarchy keeps the screensaver and About art global
 (`~/.config/omarchy/branding/`) and never reads it from a theme, so
 `theme-branding` is a theme-set hook that copies the current theme's
 `screensaver.txt` and `about.txt` into place and
-restores the previous art when you switch to a theme without them. It's the same
-hook as in the hosaka theme; install it once:
+restores the previous art when you switch to a theme without them. Install it
+once:
 
 ```
 omarchy hook install theme-set theme-branding
@@ -131,6 +131,15 @@ Settings → Extra → Themes:
 ```
 mkdir -p ~/.config/Claude/themes.d
 ln -s ~/Work/ono-sendai-omarchy-theme/claude-desktop.jsonc ~/.config/Claude/themes.d/ono-sendai.jsonc
+```
+
+## Cursor
+
+Set up the Cursor Accent plugin so the pointer follows the theme (Ono-Sendai
+red outline on deck black), recolouring on every theme switch and at login:
+
+```
+omarchy plugin add https://github.com/SmoothPixels/cursor-accent.git --enable && ~/.config/omarchy/plugins/io.github.smoothpixels.cursor-accent/tools/install-cursor-hook.sh
 ```
 
 ## Install

@@ -1,11 +1,10 @@
 # Ono-Sendai login screen (SDDM)
 
-An Ono-Sendai deck asking for your credentials. Same layout as the arasaka,
-militech, neuromancer and hosaka logins, so the password login doesn't look like
-the boot disk-unlock screen: the ONO-SENDAI wordmark (`logo.png`, `../unlock.png`
-drawn at 4x and shown at a quarter of that, so it stays sharp whatever scale the
-greeter's monitor runs at), a red LOG IN
-heading, `user@host`, a labelled password box (red while typing), and a status
+An Ono-Sendai deck asking for your credentials, laid out so the password login
+doesn't look like the boot disk-unlock screen: the ONO-SENDAI wordmark
+(`logo.png`, `../unlock.png` drawn at 4x and shown at a quarter of that, so it
+stays sharp whatever scale the greeter's monitor runs at), a red LOG IN heading,
+`user@host`, a labelled password box (red while typing), and a status
 line (Enter hint, Caps Lock in yellow, wrong password in bright red).
 
 ```
@@ -15,9 +14,8 @@ login-theme --default
 login-theme --remove ono-sendai
 ```
 
-`login-theme` is bundled in this folder (the same file ships with the other
-logins). Install it once with `install -Dm 755 login-theme
-~/.local/bin/login-theme`, or run `./login-theme` in place. It works for any
+`login-theme` is bundled in this folder. Install it once with
+`install -Dm 755 login-theme ~/.local/bin/login-theme`, or run `./login-theme` in place. It works for any
 Omarchy theme with an `sddm/` folder, needs sudo, and only writes
 `/usr/share/sddm/themes/<name>/` (folders it marks as its own) and
 `/etc/sddm.conf.d/99-z-login-theme.conf`. Omarchy's own login theme is never
