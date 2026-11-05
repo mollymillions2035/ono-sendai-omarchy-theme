@@ -167,6 +167,30 @@ mkdir -p ~/.config/Claude/themes.d
 ln -s ~/Work/ono-sendai-omarchy-theme/claude-desktop.jsonc ~/.config/Claude/themes.d/ono-sendai.jsonc
 ```
 
+## OpenCode Desktop
+
+`opencode-desktop.json` is the same palette as a theme for OpenCode Desktop 2.2.5:
+deck black, off-white text, Ono-Sendai red for buttons, focus and links, code
+coloured like `fish.theme`. The light variant is the same red on a pale warm
+panel.
+
+The app has no folder for custom themes, so `opencode-desktop.cjs` adds this one
+to the app's theme list as the app loads. The installed files aren't changed, so
+package updates still apply. Electron has to preload it, which takes a flags file
+(`electron44` is used only by OpenCode Desktop, and the loader does nothing for
+anything else):
+
+```
+printf -- '-r\n%s\n' "$PWD/opencode-desktop.cjs" > ~/.config/electron44-flags.conf
+```
+
+Restart the app and pick Ono-Sendai in Settings > Appearance > Theme.
+
+If a later release changes how the app lists its themes, the app runs stock on its
+default theme. To remove this, delete the flags file; do that before moving or
+deleting this checkout, because Electron won't start while the file points at a
+loader that's gone.
+
 ## Cursor
 
 Set up the Cursor Accent plugin so the pointer follows the theme (Ono-Sendai
