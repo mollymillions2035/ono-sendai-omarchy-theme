@@ -1,0 +1,29 @@
+[controls]
+# Buttons, dropdowns and tabs: Ono-Sendai red chrome, brighter when active. Labels
+# stay off-white until selected.
+normal-color        = "#e8261b"
+normal-fill-alpha   = 0.06
+normal-border       = "#e8261b"
+normal-border-width = 1
+normal-border-alpha = 0.5
+
+hover-cursor-color        = "#e8261b"
+hover-cursor-fill-alpha   = 0.16
+hover-cursor-border       = "#e8261b"
+hover-cursor-border-width = 1
+hover-cursor-border-alpha = 0.85
+
+focus-color        = "#e8261b"
+focus-fill-alpha   = 0.16
+focus-border       = "#e8261b"
+focus-border-width = 1
+focus-border-alpha = 0.85
+
+selected-color        = "#ff5a4c"
+selected-fill-alpha   = 0.22
+selected-border       = "#e8261b"
+selected-border-width = 0
+selected-border-alpha = 1.0
+
+pressed-fill-alpha   = 0.3
+selection-fill-alpha = 0.4

@@ -21,9 +21,10 @@ device fronts, buttons or indicator lights, no out-of-universe logos.
 The other ANSI colours are muted so nothing competes with the red.
 
 The theme is `colors.toml`, `hyprland.lua` (red border fading into black),
-`shell.*.toml` overrides (bar, launcher, menu, lock, polkit, notifications,
-popups, tooltip), `icons.theme` (Yaru-red-dark). The theme sets no transparency
-of its own: use Omarchy's settings (Appearance > Windows > Window Opacity).
+`shell.*.toml` overrides (bar, controls, launcher, menu, lock, polkit,
+notifications, popups, tooltip), `icons.theme` (Yaru-red-dark). The theme sets no
+transparency of its own: use Omarchy's settings (Appearance > Windows > Window
+Opacity).
 
 ## The mark
 
@@ -44,8 +45,8 @@ login screens:
 
 Rendered by `wallpaper.py` (numpy, Pillow, rsvg-convert, ImageMagick);
 regenerate with `python3 wallpaper.py` (or one: `python3 wallpaper.py
-2-ono-sendai-red`), then `omarchy theme set ono-sendai`. Switch between them
-with `omarchy theme bg next`.
+2-ono-sendai-red`), then `omarchy theme refresh`. A wallpaper already on screen
+updates the next time it loads. Switch between them with `omarchy theme bg next`.
 
 ## Boot splash and login (Plymouth + SDDM)
 
@@ -91,7 +92,7 @@ once:
 
 ```
 omarchy hook install theme-set theme-branding
-omarchy theme set ono-sendai
+omarchy theme refresh
 ```
 
 ## Fish
