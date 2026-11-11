@@ -20,7 +20,7 @@ device fronts, buttons or indicator lights, no out-of-universe logos.
 
 The other ANSI colours are muted so nothing competes with the red.
 
-The theme is `colors.toml`, `hyprland.lua` (red border fading into black),
+The theme is `colors.toml`, `hyprland.lua` (red border fading into black, rounded corners),
 `shell.*.toml` overrides (bar, controls, launcher, menu, lock, polkit,
 notifications, popups, tooltip), `icons.theme` (Yaru-red-dark). The theme sets no
 transparency of its own: use Omarchy's settings (Appearance > Windows > Window
