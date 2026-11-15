@@ -197,6 +197,18 @@ default theme. To remove this, delete the flags file; do that before moving or
 deleting this checkout, because Electron won't start while the file points at a
 loader that's gone.
 
+## Herdr Desktop
+
+`herdr-desktop.json` is the same palette as a theme for the Herdr desktop app
+(`herdr-app`): terminal colours as in Ghostty, deck-black panels, and
+Ono-Sendai red for the focused pane, buttons and selection. Dark only. Symlink
+it in and pick Ono-Sendai in Settings, or set `"theme": "ono-sendai"` in
+`~/.config/herdr-app/settings.json`:
+
+```
+ln -s ~/Work/ono-sendai-omarchy-theme/herdr-desktop.json ~/.config/herdr-app/themes/ono-sendai.json
+```
+
 ## Cursor
 
 Set up the Cursor Accent plugin so the pointer follows the theme (Ono-Sendai
