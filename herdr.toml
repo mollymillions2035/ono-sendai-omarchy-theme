@@ -15,16 +15,17 @@ auto_switch = false
 # Active tab, focused pane border. Overrides [ui] accent.
 accent = "#e8261b"
 
-# Tab bar background, and the active tab's label on the accent. This is the
-# terminal background exactly, which Ghostty still draws translucent. It can't
-# be "reset": the label then falls back to surface_dim, and making that dark
-# enough to read is what hides the sidebar divider.
-panel_bg = "#0a0707"
+# Tab bar and sidebar keep the terminal's background, so a translucent
+# terminal stays translucent there. Any colour here, even the terminal's own
+# background, is drawn opaque.
+panel_bg = "reset"
 sidebar_bg = "reset"
 
-# The line between the sidebar and the panes, and the rule between the
-# sidebar's sections. Same colour as the dividers between unfocused panes.
-surface_dim = "#64504b"
+# The line between the sidebar and the panes and the rule between the
+# sidebar's sections. With panel_bg reset it is also the active tab's label,
+# so it has to read on the accent and still show on the background: black
+# does the first and not the second.
+surface_dim = "#4d1a15"
 
 # Sidebar: the active space's row, and the cursor row when navigating
 active_row_bg = "#3b1411"
