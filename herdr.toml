@@ -1,0 +1,53 @@
+# Ono-Sendai for Herdr, the terminal app. Herdr has no theme files, so this is
+# the [theme] block of ~/.config/herdr/config.toml: paste it in over the one
+# that's there. The desktop app's theme is herdr-desktop.json.
+#
+# The base is "terminal" so pane contents and anything not named here follow
+# the terminal's own palette. Every token Herdr draws its chrome with is set
+# to a fixed colour, because on the terminal palette the sidebar divider is
+# ANSI black, which is this theme's background.
+
+[theme]
+name = "terminal"
+auto_switch = false
+
+[theme.custom]
+# Active tab, focused pane border. Overrides [ui] accent.
+accent = "#e8261b"
+
+# Tab bar background, and the active tab's label on the accent. This is the
+# terminal background exactly, which Ghostty still draws translucent. It can't
+# be "reset": the label then falls back to surface_dim, and making that dark
+# enough to read is what hides the sidebar divider.
+panel_bg = "#0a0707"
+sidebar_bg = "reset"
+
+# The line between the sidebar and the panes, and the rule between the
+# sidebar's sections. Same colour as the dividers between unfocused panes.
+surface_dim = "#64504b"
+
+# Sidebar: the active space's row, and the cursor row when navigating
+active_row_bg = "#3b1411"
+selection_bg = "#4d1a15"
+
+# Inactive tabs
+surface0 = "#160e0d"
+surface1 = "#241615"
+
+# Unfocused pane dividers, inactive tab labels, sidebar headings
+overlay0 = "#64504b"
+# The new-tab "+" and the right of the tab bar
+overlay1 = "#b8a8a3"
+
+text = "#e6d9d4"
+subtext0 = "#b8a8a3"
+
+# Status colours. red is the bright red so that a blocked agent doesn't read
+# as plain accent.
+red = "#ff5a4c"
+green = "#8ab36f"
+yellow = "#e3b24f"
+blue = "#7489c4"
+teal = "#5fb0aa"
+mauve = "#cf5a86"
+peach = "#ee6a2c"

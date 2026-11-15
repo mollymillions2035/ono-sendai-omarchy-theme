@@ -238,6 +238,22 @@ it in and pick Ono-Sendai in Settings, or set `"theme": "ono-sendai"` in
 ln -s ~/Work/ono-sendai-omarchy-theme/herdr-desktop.json ~/.config/herdr-app/themes/ono-sendai.json
 ```
 
+## Herdr
+
+`herdr.toml` is the theme for Herdr in the terminal: Ono-Sendai red for the
+active tab and the focused pane's border, and a sidebar divider you can see.
+On Herdr's own `terminal` theme that divider is ANSI black, which here is the
+background.
+
+Herdr has no theme files, so paste the file's `[theme]` and `[theme.custom]`
+tables over the `[theme]` block in `~/.config/herdr/config.toml`, then:
+
+```
+herdr config check && herdr server reload-config
+```
+
+It sets `accent`, which takes over from `accent` under `[ui]`.
+
 ## Cursor
 
 Set up the Cursor Accent plugin so the pointer follows the theme (Ono-Sendai
