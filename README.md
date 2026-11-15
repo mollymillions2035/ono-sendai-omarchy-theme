@@ -185,6 +185,23 @@ mkdir -p ~/.config/Claude/themes.d
 ln -s ~/Work/ono-sendai-omarchy-theme/claude-desktop.jsonc ~/.config/Claude/themes.d/ono-sendai.jsonc
 ```
 
+From claude-desktop-extra 5.11492.5 the theme also carries an animated scene,
+drawn behind Chat, Cowork and Code with the app's panels as frosted glass over
+it. It's the matrix as the deck shows it, in vector line work: a red grid floor
+creeping toward you, data structures in wireframe on the horizon (a stepped
+pyramid among them), constellations of data above, and points of light running
+out along the grid and round the structures. The light variant is the same
+scene on the pale panel. It stops moving when the system asks for reduced
+motion.
+
+The scene is the `backdrop` line of `claude-desktop.jsonc`, written by
+`claude-desktop-scene.py` (no dependencies); change the script and regenerate
+with `python3 claude-desktop-scene.py`, never the line itself. The running app
+only notices a change inside `themes.d`, so afterwards restart it or run
+`touch -h ~/.config/Claude/themes.d/ono-sendai.jsonc`. To keep the palette
+without the scene, turn backdrops off in Settings → Extra → Themes, or set
+`"activeBackdrop": "off"` in `~/.config/Claude/claude-desktop-extra.jsonc`.
+
 ## OpenCode Desktop
 
 `opencode-desktop.json` is the same palette as a theme for OpenCode Desktop 2.2.5:
