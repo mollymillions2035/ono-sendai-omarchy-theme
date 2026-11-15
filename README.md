@@ -160,6 +160,18 @@ Older installs keep both under `~/.config/atuin/` instead; `atuin doctor` warns 
 that file is being ignored. The next search picks it up. A theme without an `atuin.toml` leaves Atuin with no
 colours of its own.
 
+## LazyVim
+
+`neovim.lua` is the theme for Omarchy's Neovim (LazyVim). It is what Omarchy
+would generate from `colors.toml` anyway, aether.nvim with this palette, plus
+highlights retuned to match `fish.theme`: Ono-Sendai red for functions, titles,
+borders and the cursor line number, bright red keywords, warm orange strings,
+and red where aether would use blue. The status line keeps aether's own colours.
+
+Nothing to install: Omarchy picks it up with the theme, and open Neovim windows
+reload it on a theme switch. The palette in it is a copy of `colors.toml`, so
+change both together.
+
 ## Claude Desktop
 
 `claude-desktop.jsonc` is the same palette for claude-desktop-extra: black
