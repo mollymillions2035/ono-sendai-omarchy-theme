@@ -1,0 +1,40 @@
+# name: 'Ono-Sendai'
+# Bash colours in the Ono-Sendai palette, the bash counterpart of fish.theme.
+# Read by bash-theme.bash; data only, never sourced.
+#
+# Omarchy's stock bash has no syntax highlighting, so fish's command, string
+# and error colours have nowhere to go. What carries over is everything bash
+# does draw in colour: the starship prompt, readline's completion listing and
+# highlighted region, and fzf (Ctrl-R history, Ctrl-T files, Alt-C dirs).
+#
+# Syntax, as in fish.theme: <key> <rrggbb> [--background=<rrggbb>] [--bold]
+# [--underline] [--italics]. Unknown keys and malformed colours are ignored.
+
+# Starship prompt. Omarchy's starship.toml draws the directory, git branch,
+# git status and the prompt character in ANSI cyan; this palette entry
+# repaints that cyan (and only in the prompt): fish_color_cwd.
+starship_color_cyan e8261b
+
+# Readline: the common prefix of Tab completions (fish_pager_color_prefix),
+# and the active region, i.e. pasted text and the i-search match
+# (fish_color_selection / fish_color_search_match).
+bash_color_completion_prefix e8261b --bold --underline
+bash_color_region f7eeea --background=3b1411 --bold
+
+# fzf, laid out like fish's pager: candidates in off-white, the matched part
+# in red, the selected row on red-black, descriptions and chrome in muted ink.
+fzf_color_fg e6d9d4
+fzf_color_hl e8261b --bold --underline
+fzf_color_fg+ f7eeea --bold
+fzf_color_bg+ 3b1411
+fzf_color_hl+ ff5a4c --bold --underline
+fzf_color_query e6d9d4
+fzf_color_prompt e8261b
+fzf_color_pointer ff5a4c
+fzf_color_marker ee6a2c
+fzf_color_spinner e8261b
+fzf_color_info 9a8b86
+fzf_color_header 6e5f5b --italics
+fzf_color_border 64504b
+fzf_color_separator 64504b
+fzf_color_scrollbar 64504b
