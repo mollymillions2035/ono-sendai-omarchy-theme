@@ -200,7 +200,7 @@ Rectangle {
       width: root.fs * 24
       spacing: Math.round(root.fs * 0.45)
 
-      Line { text: "Ono-Sendai"; color: root.accent; font.weight: Font.Bold; font.pixelSize: Math.round(root.fs * 1.6) }
+      Line { text: "Cyberspace VII"; color: root.accent; font.weight: Font.Bold; font.pixelSize: Math.round(root.fs * 1.6) }
       Line {
         text: (root.currentUser + (sddm.hostName ? "@" + sddm.hostName : "") + " · "
                + Qt.formatDateTime(root.now, "ddd d MMM HH:mm")).toLowerCase()
