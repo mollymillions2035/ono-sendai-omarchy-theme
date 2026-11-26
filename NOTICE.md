@@ -68,9 +68,8 @@ JetBrainsMono Nerd Font.
 
 ## Lock Screen Explorer
 
-`sddm/Main.qml` is a port of the "Login" design from Lock Screen Explorer
-(https://github.com/SirJul1337), used under the MIT License. It embeds a copy
-of `about.txt`, which stays under CC BY-SA 4.0 as described above.
+`sddm/Main.qml` is a port of the "Split" design from Lock Screen Explorer
+(https://github.com/SirJul1337), used under the MIT License.
 
 ```
 MIT License

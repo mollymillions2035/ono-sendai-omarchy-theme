@@ -1,13 +1,18 @@
 # Ono-Sendai login screen (SDDM)
 
-A terminal login, ported from Lock Screen Explorer's "Login" lock design so
-login and lock look the same: the ONO-SENDAI wordmark (`../about.txt`, embedded
-in `Main.qml`) decrypts in on the left, red fading to off-white; on the right,
-an Omarchy heading, `user@host` with the date, and a `password ❯` prompt with a
-blinking block cursor. A wrong password knocks a few of the wordmark's cells out
-of place in bright red until they correct; the status line also shows Caps Lock
-in yellow. Enter logs in, Esc clears.
+A port of Lock Screen Explorer's "Split" lock design, so login and lock look
+the same: the clock and date sit bottom-left over the wallpaper, and a tinted
+panel on the right holds the user's initial on a red circle, a time-of-day
+greeting, the user's name, the password field (lock glyph, Caps Lock badge,
+show-password eye) and the hostname. A wrong password shakes the field, turns
+its outline red and counts the failed attempts. Enter logs in, Esc clears.
+The wallpaper is sharp, as with the lock's "Wallpaper blur: Sharp" setting.
 
+The greeter runs as the `sddm` user and can't read your desktop wallpaper or
+Omarchy theme, so both are baked in: `wallpaper.png` links to
+`../backgrounds/1-ono-sendai.png` (copied on install), and the colors are the
+`[lock]` colors from `../shell.lock.toml`. Sizes follow the lock's logical
+pixels at a 1080p, 1.25-scale screen and scale with the greeter's resolution.
 
 The font is your monospace font, the one the lock screen uses: `theme.conf`
 ships an empty `font=`, and `login-theme` fills in `fc-match monospace` when it
@@ -28,9 +33,8 @@ Omarchy theme with an `sddm/` folder, needs sudo, and only writes
 touched; `--default` goes back to it.
 
 `preview.png` is an offscreen render of `Main.qml` by `preview.qml` (stubbed
-SDDM objects, 2400x1350 at scale 1.6). Re-render after changing `Main.qml`:
-`QT_QPA_PLATFORM=offscreen qml6 preview.qml -- "$USER" "$(hostname)"`.
+SDDM objects, 2400x1350 at scale 1.6). Re-render after changing `Main.qml`
+(copy `wallpaper.png` with `cp -L` if rendering elsewhere):
+`QT_QPA_PLATFORM=offscreen qml6 preview.qml -- "$USER" "$(hostname)" "$(fc-match -f '%{family[0]}' monospace)"`.
 
 Test without installing: `sddm-greeter-qt6 --test-mode --theme ~/.config/omarchy/themes/ono-sendai/sddm`
-
-`python3 ../wallpaper.py unlock` re-renders `unlock.png` and the 4x `logo.png`.
