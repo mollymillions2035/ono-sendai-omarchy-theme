@@ -1,11 +1,17 @@
 # Ono-Sendai login screen (SDDM)
 
-An Ono-Sendai deck asking for your credentials, laid out so the password login
-doesn't look like the boot disk-unlock screen: the ONO-SENDAI wordmark
-(`logo.png`, `../unlock.png` drawn at 4x and shown at a quarter of that, so it
-stays sharp whatever scale the greeter's monitor runs at), a red LOG IN heading,
-`user@host`, a labelled password box (red while typing), and a status
-line (Enter hint, Caps Lock in yellow, wrong password in bright red).
+A terminal login, ported from Lock Screen Explorer's "Login" lock design so
+login and lock look the same: the ONO-SENDAI wordmark (`../about.txt`, embedded
+in `Main.qml`) decrypts in on the left, red fading to off-white; on the right,
+an Omarchy heading, `user@host` with the date, and a `password ❯` prompt with a
+blinking block cursor. A wrong password knocks a few of the wordmark's cells out
+of place in bright red until they correct; the status line also shows Caps Lock
+in yellow. Enter logs in, Esc clears.
+
+
+The font is your monospace font, the one the lock screen uses: `theme.conf`
+ships an empty `font=`, and `login-theme` fills in `fc-match monospace` when it
+installs. Change fonts later? Run `login-theme ono-sendai` again.
 
 ```
 login-theme ono-sendai   # install/refresh and make it the active login
