@@ -135,6 +135,40 @@ end
 New shells pick it up; open ones keep their colours until restarted. A theme
 without a `fish.theme` leaves fish on its defaults.
 
+## Bash
+
+`bash.theme` is the same palette for Omarchy's stock bash. Bash there has no
+syntax highlighting, so fish's command and string colours have nowhere to go;
+what carries over is everything bash does draw in colour:
+
+- the starship prompt: Omarchy's `starship.toml` draws it all in ANSI cyan, and
+  a starship palette repaints that cyan Ono-Sendai red in the prompt only (fish's
+  `cwd`), leaving the prompt's layout to `~/.config/starship.toml`
+- Tab completion: the common prefix in red, bold and underlined (fish's pager
+  prefix)
+- readline's active region (pasted text, the i-search match) on red-black, like
+  fish's selection
+- fzf (Ctrl-R history, Ctrl-T files, Alt-C directories) laid out like fish's
+  pager: the matched part in red, the selected row on red-black, chrome in muted
+  ink
+
+Omarchy copies it to `~/.local/state/omarchy/current/theme/` with the rest of the
+theme. `bash-theme.bash` reads it from there; source that once at the end of
+`~/.bashrc`:
+
+```bash
+# ~/.bashrc, after Omarchy's rc
+source ~/Work/ono-sendai-omarchy-theme/bash-theme.bash
+```
+
+`bash.theme` is parsed, never sourced, in `fish.theme`'s syntax: known keys only,
+hex colours only. A theme can only supply colours, so the loader is safe with
+themes you didn't write. The prompt goes through a copy of your `starship.toml`
+with the palette added (`~/.cache/omarchy/starship-bash-theme.toml`, rewritten
+when either file changes); a `starship.toml` that already picks a palette is
+left alone. New shells pick it up; open ones keep their colours until
+restarted. A theme without a `bash.theme` leaves bash on Omarchy's defaults.
+
 ## Atuin
 
 `atuin.toml` is Atuin's search interface in the same palette, with its command
