@@ -3,7 +3,7 @@ import QtQuick.Window
 
 // Renders Main.qml offscreen to preview.png (3840x2160) with stand-ins for the
 // objects SDDM provides. The account shown comes from the command line:
-//   QT_QPA_PLATFORM=offscreen qml6 preview.qml -- "$USER" "$(hostname)"
+//   QT_QPA_PLATFORM=offscreen qml6 preview.qml -- "$USER" "$(hostname)" "$(fc-match -f '%{family[0]}' monospace)"
 // Main.qml is loaded through a Loader, whose context it inherits: the ids
 // below are what it sees as userModel, sessionModel, sddm and keyboard.
 Window {
@@ -42,6 +42,11 @@ Window {
   }
 
   QtObject {
+    id: config
+    property string font: args[2] || ""
+  }
+
+  QtObject {
     id: keyboard
     property bool capsLock: false
   }
@@ -53,7 +58,7 @@ Window {
   }
 
   Timer {
-    interval: 500
+    interval: 2500
     running: greeter.status === Loader.Ready
     onTriggered: greeter.item.grabToImage(function (result) {
       result.saveToFile(Qt.resolvedUrl("preview.png").toString().replace("file://", ""))

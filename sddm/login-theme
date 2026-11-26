@@ -75,6 +75,15 @@ case ${1:-} in
     sudo install -d -m 755 "$sddm_themes/$name"
     (cd "$src" && sudo install -m 644 "${files[@]}" "$sddm_themes/$name"/)
     sudo touch "$sddm_themes/$name/$marker"
+    # An empty "font=" in theme.conf means: use this user's monospace font (the
+    # one the lock screen uses); the greeter can't read the user's fontconfig.
+    if grep -q '^font=$' "$src/theme.conf" 2>/dev/null; then
+      font=$(fc-match -f '%{family[0]}' monospace 2>/dev/null || true)
+      font=${font//[^A-Za-z0-9 ._-]/}
+      if [[ -n $font ]]; then
+        sudo sed -i "s/^font=\$/font=$font/" "$sddm_themes/$name/theme.conf"
+      fi
+    fi
     printf '[Theme]\nCurrent=%s\n' "$name" | sudo install -m 644 /dev/stdin "$selector"
     echo "Login screen set to $name. Takes effect at the next login."
     ;;

@@ -1,6 +1,6 @@
 [SddmGreeterTheme]
 Name=Ono-Sendai
-Description=Ono-Sendai deck login: wordmark, LOG IN heading, user@host, password box
+Description=Ono-Sendai terminal login: decrypting wordmark beside a password prompt (port of Lock Screen Explorer's Login design)
 Author=user
 Type=sddm-theme
 Version=1.0

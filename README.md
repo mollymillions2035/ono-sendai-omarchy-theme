@@ -58,8 +58,8 @@ updates the next time it loads. Switch between them with `omarchy theme bg next`
 
 `unlock.png` is the wordmark on transparency; `preview-unlock.png` mocks the
 disk-unlock screen with Omarchy's own Plymouth assets. `sddm/` is a separate
-SDDM login theme named `ono-sendai` (the wordmark, a red LOG IN heading,
-`user@host`, password box, status line), installed by `sddm/login-theme`
+SDDM login theme named `ono-sendai` (the wordmark decrypting beside a terminal
+password prompt, matching Lock Screen Explorer's Login design), installed by `sddm/login-theme`
 (included); see `sddm/README.md`.
 
 Neither is installed automatically (both need sudo):
@@ -308,7 +308,8 @@ ln -s ~/Work/ono-sendai-omarchy-theme ~/.config/omarchy/themes/ono-sendai
 omarchy theme set ono-sendai
 ```
 
-The login screen uses JetBrainsMono Nerd Font, which Omarchy ships. The
+The login screen uses your monospace font (JetBrainsMono Nerd Font, which
+Omarchy ships, if it can't tell). The
 wallpapers need no fonts.
 
 ## License
