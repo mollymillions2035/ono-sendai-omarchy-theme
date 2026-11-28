@@ -58,8 +58,8 @@ updates the next time it loads. Switch between them with `omarchy theme bg next`
 
 `unlock.png` is the wordmark on transparency; `preview-unlock.png` mocks the
 disk-unlock screen with Omarchy's own Plymouth assets. `sddm/` is a separate
-SDDM login theme named `ono-sendai` (the wordmark decrypting beside a terminal
-password prompt, matching Lock Screen Explorer's Login design), installed by `sddm/login-theme`
+SDDM login theme named `ono-sendai` (clock over the wallpaper and a password
+panel on the right, matching Lock Screen Explorer's Split design), installed by `sddm/login-theme`
 (included); see `sddm/README.md`.
 
 Neither is installed automatically (both need sudo):

@@ -22,7 +22,7 @@ Window {
     property string lastUser: args[0] || "user"
     property int lastIndex: 0
     function index(row, col) { return row }
-    function data(index, role) { return lastUser }
+    function data(index, role) { return role === Qt.UserRole + 1 ? lastUser : "" }
   }
 
   QtObject {

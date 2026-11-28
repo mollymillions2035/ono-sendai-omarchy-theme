@@ -1,6 +1,6 @@
 [SddmGreeterTheme]
 Name=Ono-Sendai
-Description=Ono-Sendai terminal login: decrypting wordmark beside a password prompt (port of Lock Screen Explorer's Login design)
+Description=Ono-Sendai login: clock over the wallpaper, password panel on the right (port of Lock Screen Explorer's Split design)
 Author=user
 Type=sddm-theme
 Version=1.0
